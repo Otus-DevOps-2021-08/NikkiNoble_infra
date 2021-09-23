@@ -3,8 +3,8 @@ NikkiNoble Infra repository
 
 # Задание Cloud bastion
 
-bastion_IP = 62.84.112.127
-someinternalhost_IP = 10.128.0.30
+bastion_IP = 62.84.118.87 <br>
+someinternalhost_IP = 10.128.0.26
 
 ### Вариант решения для подключения из консоли при помощи команды вида `ssh someinternalhost` из локальной консоли рабочего устройства:
 
@@ -13,12 +13,12 @@ someinternalhost_IP = 10.128.0.30
 `$ touch ~/.ssh/config`
 
     Host bastion
-        HostName 62.84.112.127
+        HostName 62.84.118.87
         User appuser
         IdentityFile ~/.ssh/appuser
 
     Host someinternalhost
-        HostName 10.128.0.30
+        HostName 10.128.0.26
         User appuser
         IdentityFile ~/.ssh/appuser
         ProxyJump bastion
@@ -27,7 +27,7 @@ someinternalhost_IP = 10.128.0.30
 
 * с помощью -J command line flag
 
-        ssh -i ~/.ssh/appuser -A -J appuser@62.84.112.127 appuser@10.128.0.30
+        ssh -i ~/.ssh/appuser -A -J appuser@62.84.118.87 appuser@10.128.0.26
 
 ### Валидный сертификат:
-* https://62.84.112.127.sslip.io
+* https://62.84.118.87.sslip.io
