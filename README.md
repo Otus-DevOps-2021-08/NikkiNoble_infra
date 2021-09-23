@@ -3,7 +3,7 @@ NikkiNoble Infra repository
 
 # Задание Cloud bastion
 
-bastion_IP = 62.84.118.87 <br>
+bastion_IP = 62.84.118.87
 someinternalhost_IP = 10.128.0.26
 
 ### Вариант решения для подключения из консоли при помощи команды вида `ssh someinternalhost` из локальной консоли рабочего устройства:
