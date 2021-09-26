@@ -31,3 +31,22 @@ someinternalhost_IP = 10.128.0.26
 
 ### Валидный сертификат:
 * https://62.84.118.87.sslip.io
+
+_________________________
+
+# Задание Cloud TestApp
+
+testapp_IP = 62.84.114.235
+testapp_port = 9292
+
+### Startup Script
+`sudo bash startup.sh` - после применения данной команды CLI получается инстанс с уже запущенным приложением.
+
+    yc compute instance create \
+     --name reddit-app \
+     --hostname reddit-app \
+     --memory=4 \
+     --create-boot-disk image-folder-id=standard-images,image-family=ubuntu-1604-lts,size=10GB \
+     --network-interface subnet-name=default-ru-central1-a,nat-ip-version=ipv4 \
+     --metadata serial-port-enable=1 \
+     --metadata-from-file user-data=metadata.yml

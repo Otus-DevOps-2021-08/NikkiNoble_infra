@@ -1,0 +1,27 @@
+#cloud-config
+
+users:
+  - name: appuser
+    groups: sudo
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDfEpyFOQ5FLlgmu4IHWV4WTL5jfFhGqtNXfQJQk06NA0misRQMCQFDvPLJDOevEwwErhbFIebSADZfDDag40YPifFi3paOYllbmKb75804bPsD1rX0qrOLqdK1n56SMNKeCn3eXK3OYUtmf3ZeTFuMbFvK6JzeBhGJo37+Kb60XKfUU8Tlk1B2Zf+0vY/ZxmkHsZfcyIAz7Tsfpomyre8+w1g+ek7g/qZdMwK/ekdNEOs+QGj9tY/boBLgUWuBrLknCcoAfo8CT3ZxJF2SzAMFWOEogvMVBve319VAMXAxrnNdIeGowUgPfYe06pVemv+Pd6XAOzPP9fwUtWn2uFpU0RkETFXLrSMjcYlXGSpyKaPAISekdPsl6GiEZQJ7TsH11QQShJT1HP4JWBMFmYvZHIr+gLmHH4ty92k5Z2V58JcKuctuSG6o8RxndOuXh1YY8hXWWyyLuqrfg1AnsctFPtp8vFmBnSmiCDLeX2E7Nin+IlQbi4jOJ33NOEhy3ls=
+
+runcmd:
+  # install ruby
+  - sudo apt update
+  - sudo apt install -y ruby-full ruby-bundler build-essential
+  # install mongodb
+  - wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+  - echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+  - sudo apt-get update
+  - sudo apt-get install -y mongodb-org
+  - sudo systemctl start mongod
+  - sudo systemctl enable mongod
+  # deploy
+  - sudo apt-get install git -y
+  - cd ~
+  - git clone -b monolith https://github.com/express42/reddit.git
+  - cd reddit && bundle install
+  - puma -d
