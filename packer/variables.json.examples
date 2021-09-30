@@ -1,6 +1,0 @@
-{
-    "service_account_key": "key-example.json",
-    "folder_id": "b1gv9ptestacd7c37ufj",
-    "src_image_family": "ubuntu-1604-lts",
-    "subnet_id": "e9bh3q6testtponuqi7k"
-}
