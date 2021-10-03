@@ -50,3 +50,16 @@ testapp_port = 9292
      --network-interface subnet-name=default-ru-central1-a,nat-ip-version=ipv4 \
      --metadata serial-port-enable=1 \
      --metadata-from-file user-data=metadata.yml
+
+# Задание Packer
+- Создан шаблон immutable.json.
+- Для запуска приложения при старте инстанса использован systemd unit.
+
+### Запуск сборки образа
+    packer build -var-file=variables.json immutable.json
+
+### Создание ВМ с помощью Yandex.Cloud CLI
+    sudo bash create-reddit-vm.sh
+
+### Проверка образа
+     http://<внешний IP машины>:9292
