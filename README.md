@@ -63,3 +63,29 @@ testapp_port = 9292
 
 ### Проверка образа
      http://<внешний IP машины>:9292
+
+# Задание Terraform-1
+
+- В файле `main.tf` определен провайдер, добавлен ресурс для создания инстанса VM в YC.
+- Создан отдельный файл `outputs.tf` для выходных переменных с основной конфигурацией ресурсов.
+- Внутрь ресурса, содержащего описание VM, вставлены секции провижинеров `file`, `remote-exec` и определены параметры подключения к VM.
+- Команды создания ресурсов:
+    - `terraform plan`
+    - `terraform apply`
+- Команда удаления ресурсов:
+    - `terraform destroy`
+- Входные переменные определены в конфигурационных файлах `variables.tf` и `terraform.tfvars`
+- Создан файл `lb.tf`, в нем описано создание HTTP балансировщика, направляющего трафик на развернутое приложение на инстансе reddit-app (https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/lb_target_group) (https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/lb_network_load_balancer)
+- Так как подход с созданием дополнительного инстанса копированием
+кода нерационален, использован подход с заданием количества инстансов через параметр ресурса `count` (https://www.terraform.io/docs/language/meta-arguments/count.html)
+
+        ${count.index}
+- Чтобы динамически включать приложения в `target group` использован `dynamic` block (https://www.terraform.io/docs/language/expressions/dynamic-blocks.html)
+
+        dynamic target {
+            for_each = yandex_compute_instance.app.*.network_interface.0.ip_address
+            content {
+                subnet_id = var.subnet_id
+                address   = target.value
+            }
+        }
