@@ -89,3 +89,49 @@ testapp_port = 9292
                 address   = target.value
             }
         }
+# Задание Terraform-2
+- Настройка хранения стейта файла в удаленном бекенде (remote backends) для окружений stage и prod, используя Yandex Object Storage в качестве бекенда (https://cloud.yandex.ru/docs/solutions/infrastructure-management/terraform-state-storage)
+(https://cloud.yandex.ru/docs/storage/operations/buckets/create)
+    - Настройка провайдера
+
+            terraform {
+                required_providers {
+                    yandex = {
+                        source  = "yandex-cloud/yandex"
+                        version = "0.61.0"
+                    }
+                }
+            }
+
+            provider "yandex" {
+                token     = "<OAuth>"
+                cloud_id  = "<идентификатор облака>"
+                folder_id = "<идентификатор каталога>"
+                zone      = "<зона доступности по умолчанию>"
+            }
+    - Настройка бэкенда
+
+            terraform {
+                backend "s3" {
+                    endpoint   = "storage.yandexcloud.net"
+                    bucket     = "<имя бакета>"
+                    region     = "us-east-1"
+                    key        = "<путь к файлу состояния в бакете>/<имя файла      состояния>.tfstate"
+                    access_key = "<идентификатор статического ключа>"
+                    secret_key = "<секретный ключ>"
+
+                    skip_region_validation      = true
+                    skip_credentials_validation = true
+                }
+            }
+- Необходимые provisioner добавлены в модули для деплоя и работы приложения.
+(https://www.terraform.io/docs/language/functions/templatefile.html)
+
+            provisioner "file" {
+                content     = templatefile("${path.module}/files/puma.service.tmpl", { database_url = var.database_url })
+                destination = "/tmp/puma.service"
+            }
+
+            provisioner "remote-exec" {
+                script = "./${path.module}/files/deploy.sh"
+            }

@@ -1,9 +1,6 @@
 cloud_id                 = "b1gfcqdtest6ssa4jjer"
 folder_id                = "b1gv9pdtestcd7c37ufj"
 zone                     = "ru-central1-a"
-image_id                 = "fd8mnattest2kppfckfd"
-public_key_path          = "~/.ssh/ubuntu.pub"
-subnet_id                = "e9bh3q6testtponuqi7k"
 service_account_key_file = "key.json"
-private_key_path         = "~/.ssh/ubuntu"
-count_num_instances      = 2
+access_key               = "I9wqmtestQL0tCM--fox"
+secret_key               = "IiqXyuZGSvn-DhpkCz3stestyiHhwFVtestHG4-b"
