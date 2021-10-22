@@ -135,3 +135,58 @@ testapp_port = 9292
             provisioner "remote-exec" {
                 script = "./${path.module}/files/deploy.sh"
             }
+# Задание Ansible-1
+Управление хостом при помощи Ansible
+
+    $ ansible appserver -i ./inventory -m ping
+    $ ansible app -m ping
+
+ansible.cfg
+
+    [defaults]
+    inventory = ./inventory
+    remote_user = ubuntu
+    private_key_file = ~/.ssh/appuser
+    host_key_checking = False
+    retry_files_enabled = False
+
+Inventory file с группами хостов
+
+    [app]
+    appserver ansible_host=178.154.202.44
+
+    [db]
+    dbserver ansible_host=62.84.119.51
+
+YAML inventory
+
+    app:
+        hosts:
+            appserver:
+                ansible_host: 178.154.202.44
+
+Выполнение команд:
+
+    $ ansible app -m command -a 'ruby -v'
+    $ ansible app -m shell -a 'ruby -v; bundler -v'
+    $ ansible db -m command -a 'systemctl status mongod'
+    $ ansible db -m systemd -a name=mongod
+    $ ansible db -m service -a name=mongod
+    $ ansible app -m git -a 'repo=https://github.com/express42/reddit.git dest=/home/appuser/reddit'
+
+Playbook
+
+    ---
+    - name: Clone
+    hosts: app
+    tasks:
+        - name: Clone repo
+        git:
+            repo: https://github.com/express42/reddit.git
+            dest: /home/appuser/reddit
+
+    ansible-playbook clone.yml
+
+Удаляет ранее скаченные материалы и директорию reddit:
+
+    ansible app -m command -a 'rm -rf ~/reddit'
