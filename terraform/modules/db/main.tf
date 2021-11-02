@@ -24,16 +24,16 @@ resource "yandex_compute_instance" "db" {
     ssh-keys = "ubuntu:${file(var.public_key_path)}"
   }
 
-  connection {
-    type        = "ssh"
-    host        = self.network_interface.0.nat_ip_address
-    user        = "ubuntu"
-    agent       = false
-    private_key = file(var.private_key_path)
-  }
+  # connection {
+  #   type        = "ssh"
+  #   host        = self.network_interface.0.nat_ip_address
+  #   user        = "ubuntu"
+  #   agent       = false
+  #   private_key = file(var.private_key_path)
+  # }
 
-  provisioner "remote-exec" {
-    script = "${path.module}/files/bindip.sh"
-  }
+  # provisioner "remote-exec" {
+  #   script = "${path.module}/files/bindip.sh"
+  # }
 
 }

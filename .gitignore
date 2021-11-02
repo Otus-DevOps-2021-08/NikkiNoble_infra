@@ -5,3 +5,4 @@
 .terraform/
 variables.json
 key.json
+*.retry
