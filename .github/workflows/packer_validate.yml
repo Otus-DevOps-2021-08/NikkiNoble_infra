@@ -1,0 +1,19 @@
+name: Validate packer template
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  packer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Validate template app
+        run: packer validate -var-file=packer/variables.json.example packer/app.json
+
+      - name: Validate template db
+        run: packer validate -var-file=packer/variables.json.example packer/db.json

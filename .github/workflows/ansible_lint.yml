@@ -1,0 +1,20 @@
+name: Ansible lint
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+
+jobs:
+  ansible-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Lint Ansible Playbook
+        uses: ansible/ansible-lint-action@master
+        with:
+          targets: ""

@@ -197,3 +197,32 @@ Playbook
 * Один плейбук, но много сценариев
 * Много плейбуков.
 * Изменение provision образов Packer на Ansible-плейбуки
+
+# Задание Ansible-3
+* Ansible Galaxy
+
+        $ ansible-galaxy -h
+        $ ansible-galaxy init app
+        $ ansible-galaxy init db
+* Создана роль для конфигурации MongoDB
+* Coздана роль для приложения
+* В директории `ansible/environments`
+созданы две директории для окружений `stage` и `prod`
+
+        $ ansible-playbook -i environments/prod/inventory deploy.yml
+
+* Использована роль `jdauphant.nginx`
+* Ansible Vault
+
+        $ ansible-vault encrypt environments/prod/credentials.yml
+        $ ansible-vault encrypt environments/stage/credentials.yml
+
+* Настройка Github Actions: packer validate, terraform validate, ansible-lint
+https://learn.hashicorp.com/tutorials/terraform/github-actions?in=terraform/automation
+https://github.com/terraform-linters/setup-tflint
+* B README.md добавлен бейдж с статусом билда
+https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/adding-a-workflow-status-badge
+
+![Ansible lint](https://github.com/Otus-DevOps-2021-08/NikkiNoble_infra/actions/workflows/ansible_lint.yml/badge.svg)
+![Validate packer template](https://github.com/Otus-DevOps-2021-08/NikkiNoble_infra/actions/workflows/packer_validate.yml/badge.svg)
+![Terraform validate](https://github.com/Otus-DevOps-2021-08/NikkiNoble_infra/actions/workflows/terraform_validate.yml/badge.svg)
