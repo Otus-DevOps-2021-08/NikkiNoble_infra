@@ -18,7 +18,7 @@ jobs:
           terraform_version: 0.12.26
 
       - name: Terraform Init
-        id: init stage
+        id: stage-init
         run: terraform init -backend=false
         working-directory: terraform/stage
 
@@ -28,7 +28,7 @@ jobs:
         working-directory: terraform/stage
 
       - name: Terraform Init
-        id: init prod
+        id: prod-init
         run: terraform init -backend=false
         working-directory: terraform/prod
 
