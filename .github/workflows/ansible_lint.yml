@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  ansible-lint:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,4 +15,5 @@ jobs:
       - name: Lint Ansible Playbook
         uses: ansible/ansible-lint-action@master
         with:
-          targets: ""
+          targets: ansible
+          args: ""
